@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="slides-format" content="viewport">
+  <title>CoinTracker MVP — мини-презентация</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-bg: #18181B;
+      --color-bg-deep: #0f172a;
+      --color-surface: #27272A;
+      --color-text: #F8FAFC;
+      --color-text-secondary: #CBD5E1;
+      --color-text-muted: #94A3B8;
+      --color-accent-1: #F97316;
+      --color-accent-2: #14B8A6;
+      --color-accent-3: #FEF3C7;
+      --color-glass-bg: rgba(255,255,255,0.06);
+      --color-glass-border: rgba(255,255,255,0.08);
+      --color-vignette: rgba(0,0,0,0.45);
+      --font-display: 'Archivo Black', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+  </style>
+  <style>
+    :root { --color-bg:#18181B; --color-text:#F8FAFC; --glow-color-rgb:249,115,22; --font-body:'DM Sans',sans-serif; }
+    *,*::before,*::after{box-sizing:border-box} html,body{margin:0;background:var(--color-bg)}
+    body{font-family:var(--font-body);color:var(--color-text);overflow:hidden;height:100vh;width:100vw}
+    .deck{width:100vw;height:100vh;position:relative}.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.96);transition:opacity .7s ease,transform .7s ease;pointer-events:none;overflow:hidden}.slide.active{opacity:1;transform:scale(1);pointer-events:all}.slide>.content{position:relative;z-index:2;width:100%;max-width:1180px;padding:clamp(1.2rem,3vw,3rem)}
+    .nav-controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;z-index:100;background:rgba(255,255,255,.08);backdrop-filter:blur(10px);padding:10px 24px;border-radius:40px;border:1px solid rgba(255,255,255,.12)}
+    .nav-btn{width:40px;height:40px;border:none;background:rgba(255,255,255,.08);color:#F97316;border-radius:50%;font-size:1.2rem;cursor:pointer}.slide-dots{display:flex;gap:8px}.slide-dots .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer}.slide-dots .dot.active{background:#F97316;transform:scale(1.3)}.slide-counter{font-size:.82rem;color:#CBD5E1;min-width:48px;text-align:center}
+    .reveal{opacity:0;transform:translateY(20px)} .gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}.blob{position:absolute;border-radius:50%;filter:blur(80px);animation:float-slow 12s ease-in-out infinite}.blob:nth-child(2){animation:float-drift 16s ease-in-out infinite}.blob:nth-child(3){animation:float-slow 18s ease-in-out infinite reverse}
+    @keyframes float-slow{0%{transform:translate(0,0) scale(1)}25%{transform:translate(60px,-50px) scale(1.12)}50%{transform:translate(-40px,40px) scale(.9)}75%{transform:translate(50px,20px) scale(1.08)}100%{transform:translate(0,0) scale(1)}}
+    @keyframes float-drift{0%{transform:translate(0,0) scale(1) rotate(0deg)}33%{transform:translate(-50px,-60px) scale(1.15) rotate(3deg)}66%{transform:translate(40px,30px) scale(.88) rotate(-2deg)}100%{transform:translate(0,0) scale(1) rotate(0deg)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+    .slide::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;opacity:.03;mix-blend-mode:overlay}
+    .slide::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 52%,rgba(0,0,0,.45) 100%)}
+    .glass{background:rgba(255,255,255,.06);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);box-shadow:0 12px 40px rgba(0,0,0,.18)}
+    .tag{display:inline-flex;padding:.38rem .75rem;border-radius:999px;background:rgba(20,184,166,.14);border:1px solid rgba(20,184,166,.28);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}
+    .hero-emoji{font-size:108px;line-height:1;animation:float 3s ease-in-out infinite;margin-bottom:18px}
+    .section-title{font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.02;margin:0 0 .8rem}
+    .two-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}.three-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.card{border-radius:22px;padding:1.15rem 1.2rem}.big{font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,4vw,3.6rem);line-height:.95}.small{font-size:.8rem;color:#94A3B8}.subtle{color:#CBD5E1}.bullet-list{display:grid;gap:12px}.bullet{border-radius:18px;padding:.95rem 1rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+    .table-row{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);font-size:.95rem;margin-bottom:10px}.head{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:#94A3B8;background:rgba(20,184,166,.09)}
+    .bar-track{height:18px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}.bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#F97316,#14B8A6);width:0%}
+    .script-box{border-left:4px solid #F97316;padding:1rem 1rem 1rem 1.1rem;border-radius:0 18px 18px 0;background:rgba(255,255,255,.05);border-top:1px solid rgba(255,255,255,.08);border-right:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+    @media (max-width:980px){.two-grid,.three-grid,.table-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="mouse-spotlight" style="position:fixed;inset:0;z-index:99;pointer-events:none"></div>
+<div class="deck">
+  <div class="slide active" data-slide="1">
+    <div class="gradient-mesh"><div class="blob" style="width:460px;height:460px;top:-100px;right:-120px;background:#F97316;opacity:.16"></div><div class="blob" style="width:320px;height:320px;bottom:-70px;left:-40px;background:#14B8A6;opacity:.14"></div><div class="blob" style="width:240px;height:240px;top:38%;left:14%;background:#FEF3C7;opacity:.08"></div></div>
+    <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1"></canvas>
+    <div class="content text-center">
+      <div class="hero-emoji reveal">🪙</div>
+      <div class="tag reveal" style="margin-bottom:18px">Команда CoinTracker · MVP</div>
+      <h1 class="reveal" style="font-family:'Archivo Black',sans-serif;font-size:clamp(2.4rem,6vw,5.2rem);line-height:.96;margin:0;background:linear-gradient(135deg,#F97316,#FEF3C7,#14B8A6);-webkit-background-clip:text;background-clip:text;color:transparent;">CoinTracker</h1>
+      <p class="reveal" style="font-size:clamp(1rem,2vw,1.35rem);letter-spacing:.18em;text-transform:uppercase;color:#CBD5E1;margin:.9rem 0 0;">Сегмент: активные криптотрейдеры и DeFi‑пользователи</p>
+      <p class="reveal subtle" style="max-width:760px;margin:1rem auto 0">MVP уже показывает графики монет, крупный просмотр графиков, продвинутую фильтрацию и AI‑прогноз направления движения монет.</p>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="2">
+    <div class="gradient-mesh"><div class="blob" style="width:350px;height:350px;top:-80px;right:-80px;background:#F97316;opacity:.08"></div><div class="blob" style="width:240px;height:240px;bottom:-60px;left:-30px;background:#14B8A6;opacity:.07"></div></div>
+    <div class="content">
+      <div class="tag reveal">1-я ценность</div>
+      <h2 class="section-title reveal">Первая победа и time-to-value</h2>
+      <div class="three-grid" style="margin-top:1rem">
+        <div class="glass card reveal"><div class="big">&lt;3 мин</div><div class="subtle">до первого полезного действия: нашёл монету, открыл график, отфильтровал рынок</div></div>
+        <div class="glass card reveal"><div class="big">1 экран</div><div class="subtle">вместо перехода между несколькими сервисами ради первичной оценки актива</div></div>
+        <div class="glass card reveal"><div class="big">1 инсайт</div><div class="subtle">AI‑подсказка даёт пользователю причину остаться и продолжить анализ</div></div>
+      </div>
+      <div class="glass card reveal" style="margin-top:18px">
+        <strong>Первая победа:</strong> пользователь заходит на сайт, фильтрует рынок по нужным критериям, быстро открывает интересную монету и сразу получает график + прогноз роста/падения. Это и есть момент, когда продукт начинает экономить время и создавать ощущение контроля.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="3">
+    <div class="gradient-mesh"><div class="blob" style="width:350px;height:350px;top:-90px;right:-90px;background:#14B8A6;opacity:.08"></div><div class="blob" style="width:250px;height:250px;bottom:-70px;left:-30px;background:#F97316;opacity:.06"></div></div>
+    <div class="content">
+      <div class="tag reveal">Риск‑зона</div>
+      <h2 class="section-title reveal">ТОП‑3 критические гипотезы</h2>
+      <div class="bullet-list" style="margin-top:1rem">
+        <div class="bullet reveal"><strong>Гипотеза 1.</strong> Трейдеры считают продвинутую фильтрацию действительно полезной и готовы использовать её как основной способ поиска монет, а не как вторичную фичу.</div>
+        <div class="bullet reveal"><strong>Гипотеза 2.</strong> AI‑прогноз воспринимается как полезный ориентир для принятия решений, а не как развлекательный элемент без доверия.</div>
+        <div class="bullet reveal"><strong>Гипотеза 3.</strong> Комбинация «фильтрация + график + AI‑оценка» даёт достаточную ценность, чтобы пользователь оставил контакт, вернулся повторно или согласился на демо.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="4">
+    <div class="gradient-mesh"><div class="blob" style="width:420px;height:420px;top:-100px;right:-100px;background:#F97316;opacity:.08"></div><div class="blob" style="width:230px;height:230px;bottom:-60px;left:-20px;background:#14B8A6;opacity:.07"></div></div>
+    <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1"></canvas>
+    <div class="content">
+      <div class="tag reveal">MБП</div>
+      <h2 class="section-title reveal">Лендинг + форма + демо‑видео</h2>
+      <div class="two-grid" style="margin-top:1rem">
+        <div class="glass card reveal">
+          <div style="font-size:1.18rem;font-weight:700;margin-bottom:.55rem">Что показываем на лендинге</div>
+          <div class="bullet-list">
+            <div>Проблема: слишком много вкладок и ручной анализ.</div>
+            <div>Решение: единое окно с фильтрацией, графиком и AI‑подсказкой.</div>
+            <div>CTA: «Получить ранний доступ» / «Записаться на демо».</div>
+          </div>
+        </div>
+        <div class="glass card reveal">
+          <div style="font-size:1.18rem;font-weight:700;margin-bottom:.55rem">Минимальный путь конверсии</div>
+          <div class="bullet-list">
+            <div>Форма: имя, Telegram / email, роль пользователя.</div>
+            <div>Демо‑видео 45–90 секунд с реальным сценарием использования.</div>
+            <div>После отправки — экран «спасибо» и ссылка на follow‑up контакт.</div>
+          </div>
+        </div>
+      </div>
+      <p class="small reveal" style="margin-top:12px">Короткое демо‑видео на лендинге часто используют для валидации ценности до масштабной доработки продукта, а A/B‑подход рекомендует менять по одной ключевой переменной за тест [web:43][web:44][web:50].</p>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="5">
+    <div class="gradient-mesh"><div class="blob" style="width:360px;height:360px;top:-90px;right:-80px;background:#14B8A6;opacity:.08"></div><div class="blob" style="width:250px;height:250px;bottom:-60px;left:-20px;background:#F97316;opacity:.06"></div></div>
+    <div class="content">
+      <div class="tag reveal">Коммуникация</div>
+      <h2 class="section-title reveal">Сообщение A/B</h2>
+      <div class="two-grid" style="margin-top:1rem">
+        <div class="glass card reveal">
+          <div style="font-size:1.2rem;font-weight:700;margin-bottom:.6rem">Версия A — скорость</div>
+          <p class="subtle" style="margin:0">«Хватит тратить время на 10 вкладок. CoinTracker помогает за минуты найти монеты по нужным критериям, открыть график и получить AI‑прогноз по движению цены».</p>
+        </div>
+        <div class="glass card reveal">
+          <div style="font-size:1.2rem;font-weight:700;margin-bottom:.6rem">Версия B — качество решений</div>
+          <p class="subtle" style="margin:0">«CoinTracker помогает отсеивать шум на крипторынке: продвинутая фильтрация, визуальный анализ графика и AI‑оценка роста/падения в одном интерфейсе».</p>
+        </div>
+      </div>
+      <div class="glass card reveal" style="margin-top:18px"><strong>Что сравниваем:</strong> CTR по кнопке, отправку формы, досмотр демо‑видео и долю пользователей, которые после просмотра хотят демо / ранний доступ. A/B‑гипотеза должна проверять одну переменную за раз — например, только акцент на скорости или только акцент на качестве решений [web:44][web:47][web:50].</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="6">
+    <div class="gradient-mesh"><div class="blob" style="width:370px;height:370px;top:-90px;right:-90px;background:#F97316;opacity:.08"></div><div class="blob" style="width:240px;height:240px;bottom:-60px;left:-20px;background:#14B8A6;opacity:.07"></div></div>
+    <div class="content">
+      <div class="tag reveal">Go-to-market</div>
+      <h2 class="section-title reveal">Каналы и скрипт контакта</h2>
+      <div class="two-grid" style="margin-top:1rem">
+        <div class="glass card reveal">
+          <div style="font-size:1.18rem;font-weight:700;margin-bottom:.55rem">Каналы</div>
+          <div class="bullet-list">
+            <div>Telegram‑чаты и каналы про трейдинг и DeFi.</div>
+            <div>Личные сообщения знакомым трейдерам и micro‑influencers.</div>
+            <div>Twitter / X, Discord, Reddit, крипто‑комьюнити.</div>
+            <div>Посты в студенческих / стартап‑чатах для набора первых тестеров.</div>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="script-box"><strong>Скрипт:</strong><br>«Привет! Мы тестируем CoinTracker — сервис для быстрого поиска монет с продвинутой фильтрацией, графиками и AI‑подсказкой по движению цены. Можно показать короткое демо на 1 минуту? Если зайдёт, дадим ранний доступ».</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="7">
+    <div class="gradient-mesh"><div class="blob" style="width:420px;height:420px;top:-110px;right:-90px;background:#14B8A6;opacity:.09"></div><div class="blob" style="width:250px;height:250px;bottom:-60px;left:-30px;background:#F97316;opacity:.07"></div></div>
+    <div class="content">
+      <div class="tag reveal">Аналитика</div>
+      <h2 class="section-title reveal">Воронка и метрики</h2>
+      <div class="two-grid" style="margin-top:1rem;align-items:start">
+        <div class="glass card reveal">
+          <div style="font-size:1.18rem;font-weight:700;margin-bottom:.55rem">Воронка</div>
+          <div class="bullet-list">
+            <div>Охват → переход на лендинг</div>
+            <div>Переход → просмотр демо‑видео</div>
+            <div>Просмотр → отправка формы</div>
+            <div>Форма → демо / ранний доступ</div>
+            <div>Демо → повторный визит / активация</div>
+          </div>
+        </div>
+        <div class="glass card reveal">
+          <div style="font-size:1.18rem;font-weight:700;margin-bottom:.75rem">Ключевые метрики</div>
+          <div style="margin-bottom:12px">CTR по сообщению<div class="bar-track"><div class="bar-fill" data-width="55"></div></div></div>
+          <div style="margin-bottom:12px">Досмотр демо‑видео<div class="bar-track"><div class="bar-fill" data-width="70"></div></div></div>
+          <div style="margin-bottom:12px">Конверсия в форму<div class="bar-track"><div class="bar-fill" data-width="35"></div></div></div>
+          <div>Активация / повторный визит<div class="bar-track"><div class="bar-fill" data-width="25"></div></div></div>
+        </div>
+      </div>
+      <p class="small reveal" style="margin-top:12px">Для MVP обычно важнее не общий трафик, а метрики активации, time‑to‑value, конверсии по воронке и ранний retention [web:45][web:48][web:51].</p>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="8">
+    <div class="gradient-mesh"><div class="blob" style="width:460px;height:460px;top:-100px;right:-110px;background:#F97316;opacity:.15"></div><div class="blob" style="width:320px;height:320px;bottom:-70px;left:-40px;background:#14B8A6;opacity:.13"></div><div class="blob" style="width:230px;height:230px;top:44%;left:16%;background:#FEF3C7;opacity:.08"></div></div>
+    <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1"></canvas>
+    <div class="content">
+      <div class="tag reveal">Следующие 1–2 недели</div>
+      <h2 class="section-title reveal">План экспериментов</h2>
+      <div class="three-grid" style="margin-top:1rem">
+        <div class="glass card reveal"><div style="font-size:1.18rem;font-weight:700">Неделя 1</div><p class="subtle">Собрать лендинг, записать демо‑видео, настроить форму и аналитику событий.</p></div>
+        <div class="glass card reveal"><div style="font-size:1.18rem;font-weight:700">Неделя 1–2</div><p class="subtle">Запустить A/B‑тест двух сообщений, провести 15–20 ручных контактов и собрать первые регистрации.</p></div>
+        <div class="glass card reveal"><div style="font-size:1.18rem;font-weight:700">Конец 2-й недели</div><p class="subtle">Сравнить каналы, сообщение‑победитель, конверсию в форму и качество обратной связи по MVP.</p></div>
+      </div>
+      <div class="glass card reveal" style="margin-top:18px"><strong>Решение по итогу:</strong> либо усиливать текущую ценность и масштабировать привлечение, либо менять позиционирование AI‑функции / фильтрации, если пользователи не видят достаточной пользы.</div>
+    </div>
+  </div>
+</div>
+<div class="nav-controls"><button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button><div class="slide-dots" id="dots"></div><button class="nav-btn" onclick="changeSlide(1)">&#8250;</button><span class="slide-counter" id="counter">1 / 8</span></div>
+<script>
+let current=1;const total=document.querySelectorAll('.slide').length;const dotsContainer=document.getElementById('dots');const counter=document.getElementById('counter');for(let i=1;i<=total;i++){const dot=document.createElement('div');dot.className='dot'+(i===1?' active':'');dot.onclick=()=>goToSlide(i);dotsContainer.appendChild(dot)}
+function goToSlide(n){const prev=document.querySelector('.slide.active');const next=document.querySelector(`.slide[data-slide="${n}"]`);if(prev)prev.classList.remove('active');if(next){next.classList.add('active');animateSlide(next)}current=n;updateNav()}function changeSlide(dir){let next=current+dir;if(next<1)next=total;if(next>total)next=1;goToSlide(next)}function updateNav(){document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i+1===current));counter.textContent=current+' / '+total}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1)}if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1)}});let touchStartX=0;document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX});document.addEventListener('touchend',e=>{const diff=touchStartX-e.changedTouches[0].clientX;if(Math.abs(diff)>50)changeSlide(diff>0?1:-1)});
+function animateSlide(slide){slide.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transition='none';el.style.opacity='0';el.style.transform='translateY(20px)';el.offsetHeight;const delay=i*.08;el.style.transition=`opacity .35s ease ${delay}s, transform .35s ease ${delay}s`;el.style.opacity='1';el.style.transform='translateY(0px)'});animateSlideEffects(slide)}
+function animateSlideEffects(slide){slide.querySelectorAll('.bar-fill:not(.fill-init)').forEach((bar,i)=>{bar.classList.add('fill-init');bar.style.width='0%';bar.style.transition=`width .5s ease ${i*.08}s`;bar.offsetHeight;bar.style.width=bar.dataset.width+'%'})}
+document.addEventListener('mousemove',e=>{const spotlight=document.querySelector('.mouse-spotlight');if(spotlight){spotlight.style.background=`radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(249,115,22,0.06), transparent 40%)`}});
+window.initParticles=function(canvas,options){if(!canvas)return;const ctx=canvas.getContext('2d');canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;const interactive=options.interactive!==false;const count=options.count||(interactive?45:18);let mx=-1000,my=-1000;const particles=Array.from({length:count},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,size:Math.random()*2.5+.8,alpha:Math.random()*.35+.1}));if(interactive){canvas.addEventListener('mousemove',e=>{const rect=canvas.getBoundingClientRect();mx=e.clientX-rect.left;my=e.clientY-rect.top});canvas.addEventListener('mouseleave',()=>{mx=-1000;my=-1000})}(function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{if(interactive){const dx=p.x-mx,dy=p.y-my,dist=Math.sqrt(dx*dx+dy*dy)||1;if(dist<120){const force=(120-dist)/120*2;p.vx+=(dx/dist)*force*.1;p.vy+=(dy/dist)*force*.1}}p.vx*=.98;p.vy*=.98;p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle=`rgba(249,115,22,${p.alpha})`;ctx.fill()});requestAnimationFrame(animate)})()};document.querySelectorAll('.particle-canvas').forEach(c=>window.initParticles(c,{interactive:true,count:45}));document.querySelectorAll('.particle-canvas-ambient').forEach(c=>window.initParticles(c,{interactive:false,count:18}));try{animateSlide(document.querySelector('.slide.active'))}catch(e){}
+</script>
+</body>
+</html>
